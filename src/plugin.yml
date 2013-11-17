@@ -1,0 +1,338 @@
+name: Citizens
+authors: [aPunch, fullwall]
+version: ${project.version} (build ${BUILD_NUMBER})
+main: net.citizensnpcs.Citizens
+website: http://www.citizensnpcs.co
+commands:
+  traitc:
+    aliases: [trc]
+    description: Configures traits
+  trait:
+    aliases: [tr]
+    description: Trait commands
+  script:
+    aliases: [sc]
+    description: Scripting commands
+  citizens:
+    aliases: [citizens2]
+    description: Administration commands
+  npc:
+    aliases: [npc2]
+    description: Basic commands for all NPC-related things
+  template:
+    aliases: [tpl]
+    description: Template commands
+  waypoint:
+    aliases: [waypoints, wp]
+    description: Waypoint commands
+#permissions:
+## -------------------------------------------- #
+## THE REAL NODES
+## -------------------------------------------- #
+#  citizens.admin: {default: false}
+#  citizens.admin.remove.all: {default: false}
+#  citizens.citizens.help: {default: false}
+#  citizens.help: {default: false}
+#  citizens.npc.age: {default: false}
+#  citizens.npc.anchor: {default: false}
+#  citizens.npc.behaviour: {default: false}
+#  citizens.npc.copy: {default: false}
+#  citizens.npc.create: {default: false}
+#  citizens.npc.create.player: {default: false}
+#  citizens.npc.despawn: {default: false}
+#  citizens.npc.edit.copier: {default: false}
+#  citizens.npc.edit.equip: {default: false}
+#  citizens.npc.edit.path: {default: false}
+#  citizens.npc.edit.text: {default: false}
+#  citizens.npc.gravity: {default: false}
+#  citizens.npc.help: {default: false}
+#  citizens.npc.help: {default: false}
+#  citizens.npc.info: {default: false}
+#  citizens.npc.list: {default: false}
+#  citizens.npc.lookclose: {default: false}
+#  citizens.npc.moveto: {default: false}
+#  citizens.npc.name: {default: false}
+#  citizens.npc.path: {default: false}
+#  citizens.npc.pathfindingrange: {default: false}
+#  citizens.npc.playerlist: {default: false}
+#  citizens.npc.pose: {default: false}
+#  citizens.npc.remove: {default: false}
+#  citizens.npc.rename: {default: false}
+#  citizens.npc.respawn: {default: false}
+#  citizens.npc.select: {default: false}
+#  citizens.npc.size: {default: false}
+#  citizens.npc.spawn: {default: false}
+#  citizens.npc.speak: {default: false}
+#  citizens.npc.speed: {default: false}
+#  citizens.npc.talk: {default: false}
+#  citizens.npc.targetable: {default: false}
+#  citizens.npc.tp: {default: false}
+#  citizens.npc.tphere: {default: false}
+#  citizens.npc.tphere.multiworld: {default: false}
+#  citizens.npc.tpto: {default: false}
+#  citizens.npc.trait-configure: {default: false}
+#  citizens.npc.trait-configure.anchors: {default: false}
+#  citizens.npc.trait-configure.equipment: {default: false}
+#  citizens.npc.trait-configure.gravity: {default: false}
+#  citizens.npc.trait-configure.inventory: {default: false}
+#  citizens.npc.trait-configure.location: {default: false}
+#  citizens.npc.trait-configure.lookclose: {default: false}
+#  citizens.npc.trait-configure.poses: {default: false}
+#  citizens.npc.trait-configure.spawned: {default: false}
+#  citizens.npc.trait-configure.speech: {default: false}
+#  citizens.npc.trait-configure.text: {default: false}
+#  citizens.npc.trait-configure.type: {default: false}
+#  citizens.npc.trait-configure.waypoints: {default: false}
+#  citizens.npc.trait: {default: false}
+#  citizens.npc.trait.anchors: {default: false}
+#  citizens.npc.trait.equipment: {default: false}
+#  citizens.npc.trait.gravity: {default: false}
+#  citizens.npc.trait.inventory: {default: false}
+#  citizens.npc.trait.location: {default: false}
+#  citizens.npc.trait.lookclose: {default: false}
+#  citizens.npc.trait.poses: {default: false}
+#  citizens.npc.trait.speech: {default: false}
+#  citizens.npc.trait.text: {default: false}
+#  citizens.npc.trait.type: {default: false}
+#  citizens.npc.trait.waypoints: {default: false}
+#  citizens.npc.type: {default: false}
+#  citizens.npc.vulnerable: {default: false}
+#  citizens.script.compile: {default: false}
+#  citizens.script.help: {default: false}
+#  citizens.templates.apply: {default: false}
+#  citizens.templates.create: {default: false}
+#  citizens.templates.help: {default: false}
+#  citizens.trait.help: {default: false}
+#  citizens.waypoints.disableteleport: {default: false}
+#  citizens.waypoints.help: {default: false}
+#  citizens.waypoints.provider: {default: false}
+## -------------------------------------------- #
+## ALIAS
+## -------------------------------------------- #
+#  citizens.npc.text:
+#    default: false
+#    children:
+#      citizens.npc.edit.text: true
+## -------------------------------------------- #
+## STAR NOTATION
+## -------------------------------------------- #
+#  citizens.*:
+#    default: false
+#    children:
+#      citizens.admin: {default: false}
+#      citizens.admin.remove.all: {default: false}
+#      citizens.citizens.help: {default: false}
+#      citizens.help: {default: false}
+#      citizens.npc.age: {default: false}
+#      citizens.npc.anchor: {default: false}
+#      citizens.npc.behaviour: {default: false}
+#      citizens.npc.copy: {default: false}
+#      citizens.npc.create: {default: false}
+#      citizens.npc.create.player: {default: false}
+#      citizens.npc.despawn: {default: false}
+#      citizens.npc.edit.copier: {default: false}
+#      citizens.npc.edit.equip: {default: false}
+#      citizens.npc.edit.path: {default: false}
+#      citizens.npc.edit.text: {default: false}
+#      citizens.npc.gravity: {default: false}
+#      citizens.npc.help: {default: false}
+#      citizens.npc.help: {default: false}
+#      citizens.npc.info: {default: false}
+#      citizens.npc.list: {default: false}
+#      citizens.npc.lookclose: {default: false}
+#      citizens.npc.moveto: {default: false}
+#      citizens.npc.name: {default: false}
+#      citizens.npc.path: {default: false}
+#      citizens.npc.pathfindingrange: {default: false}
+#      citizens.npc.playerlist: {default: false}
+#      citizens.npc.pose: {default: false}
+#      citizens.npc.remove: {default: false}
+#      citizens.npc.rename: {default: false}
+#      citizens.npc.respawn: {default: false}
+#      citizens.npc.select: {default: false}
+#      citizens.npc.size: {default: false}
+#      citizens.npc.spawn: {default: false}
+#      citizens.npc.speak: {default: false}
+#      citizens.npc.speed: {default: false}
+#      citizens.npc.talk: {default: false}
+#      citizens.npc.targetable: {default: false}
+#      citizens.npc.tp: {default: false}
+#      citizens.npc.tphere: {default: false}
+#      citizens.npc.tphere.multiworld: {default: false}
+#      citizens.npc.tpto: {default: false}
+#      citizens.npc.trait-configure: {default: false}
+#      citizens.npc.trait-configure.anchors: {default: false}
+#      citizens.npc.trait-configure.equipment: {default: false}
+#      citizens.npc.trait-configure.gravity: {default: false}
+#      citizens.npc.trait-configure.inventory: {default: false}
+#      citizens.npc.trait-configure.location: {default: false}
+#      citizens.npc.trait-configure.lookclose: {default: false}
+#      citizens.npc.trait-configure.poses: {default: false}
+#      citizens.npc.trait-configure.spawned: {default: false}
+#      citizens.npc.trait-configure.speech: {default: false}
+#      citizens.npc.trait-configure.text: {default: false}
+#      citizens.npc.trait-configure.type: {default: false}
+#      citizens.npc.trait-configure.waypoints: {default: false}
+#      citizens.npc.trait: {default: false}
+#      citizens.npc.trait.anchors: {default: false}
+#      citizens.npc.trait.equipment: {default: false}
+#      citizens.npc.trait.gravity: {default: false}
+#      citizens.npc.trait.inventory: {default: false}
+#      citizens.npc.trait.location: {default: false}
+#      citizens.npc.trait.lookclose: {default: false}
+#      citizens.npc.trait.poses: {default: false}
+#      citizens.npc.trait.speech: {default: false}
+#      citizens.npc.trait.text: {default: false}
+#      citizens.npc.trait.type: {default: false}
+#      citizens.npc.trait.waypoints: {default: false}
+#      citizens.npc.type: {default: false}
+#      citizens.npc.vulnerable: {default: false}
+#      citizens.script.compile: {default: false}
+#      citizens.script.help: {default: false}
+#      citizens.templates.apply: {default: false}
+#      citizens.templates.create: {default: false}
+#      citizens.templates.help: {default: false}
+#      citizens.trait.help: {default: false}
+#      citizens.waypoints.disableteleport: {default: false}
+#      citizens.waypoints.help: {default: false}
+#      citizens.waypoints.provider: {default: false}
+#  citizens.admin.*:
+#    default: false
+#    children:
+#      citizens.admin.remove.all: true
+#  citizens.citizens.*:
+#    default: false
+#    children:
+#      citizens.citizens.help: true
+#  citizens.npc.*:
+#    default: false
+#    children:
+#      citizens.npc.age: {default: false}
+#      citizens.npc.anchor: {default: false}
+#      citizens.npc.behaviour: {default: false}
+#      citizens.npc.copy: {default: false}
+#      citizens.npc.create: {default: false}
+#      citizens.npc.create.player: {default: false}
+#      citizens.npc.despawn: {default: false}
+#      citizens.npc.edit.copier: {default: false}
+#      citizens.npc.edit.equip: {default: false}
+#      citizens.npc.edit.path: {default: false}
+#      citizens.npc.edit.text: {default: false}
+#      citizens.npc.gravity: {default: false}
+#      citizens.npc.help: {default: false}
+#      citizens.npc.help: {default: false}
+#      citizens.npc.info: {default: false}
+#      citizens.npc.list: {default: false}
+#      citizens.npc.lookclose: {default: false}
+#      citizens.npc.moveto: {default: false}
+#      citizens.npc.name: {default: false}
+#      citizens.npc.path: {default: false}
+#      citizens.npc.pathfindingrange: {default: false}
+#      citizens.npc.playerlist: {default: false}
+#      citizens.npc.pose: {default: false}
+#      citizens.npc.remove: {default: false}
+#      citizens.npc.rename: {default: false}
+#      citizens.npc.respawn: {default: false}
+#      citizens.npc.select: {default: false}
+#      citizens.npc.size: {default: false}
+#      citizens.npc.spawn: {default: false}
+#      citizens.npc.speak: {default: false}
+#      citizens.npc.speed: {default: false}
+#      citizens.npc.talk: {default: false}
+#      citizens.npc.targetable: {default: false}
+#      citizens.npc.tp: {default: false}
+#      citizens.npc.tphere: {default: false}
+#      citizens.npc.tphere.multiworld: {default: false}
+#      citizens.npc.tpto: {default: false}
+#      citizens.npc.trait-configure: {default: false}
+#      citizens.npc.trait-configure.anchors: {default: false}
+#      citizens.npc.trait-configure.equipment: {default: false}
+#      citizens.npc.trait-configure.gravity: {default: false}
+#      citizens.npc.trait-configure.inventory: {default: false}
+#      citizens.npc.trait-configure.location: {default: false}
+#      citizens.npc.trait-configure.lookclose: {default: false}
+#      citizens.npc.trait-configure.poses: {default: false}
+#      citizens.npc.trait-configure.spawned: {default: false}
+#      citizens.npc.trait-configure.speech: {default: false}
+#      citizens.npc.trait-configure.text: {default: false}
+#      citizens.npc.trait-configure.type: {default: false}
+#      citizens.npc.trait-configure.waypoints: {default: false}
+#      citizens.npc.trait: {default: false}
+#      citizens.npc.trait.anchors: {default: false}
+#      citizens.npc.trait.equipment: {default: false}
+#      citizens.npc.trait.gravity: {default: false}
+#      citizens.npc.trait.inventory: {default: false}
+#      citizens.npc.trait.location: {default: false}
+#      citizens.npc.trait.lookclose: {default: false}
+#      citizens.npc.trait.poses: {default: false}
+#      citizens.npc.trait.speech: {default: false}
+#      citizens.npc.trait.text: {default: false}
+#      citizens.npc.trait.type: {default: false}
+#      citizens.npc.trait.waypoints: {default: false}
+#      citizens.npc.type: {default: false}
+#      citizens.npc.vulnerable: {default: false}
+#  citizens.npc.edit.*:
+#    default: false
+#    children:
+#      citizens.npc.edit.copier: true
+#      citizens.npc.edit.equip: true
+#      citizens.npc.edit.path: true
+#      citizens.npc.edit.text: true
+#  citizens.npc.tphere.*:
+#    default: false
+#    children:
+#      citizens.npc.tphere.multiworld: true
+#  citizens.npc.trait-configure.*:
+#    default: false
+#    children:
+#      citizens.npc.trait-configure.anchors: true
+#      citizens.npc.trait-configure.equipment: true
+#      citizens.npc.trait-configure.gravity: true
+#      citizens.npc.trait-configure.inventory: true
+#      citizens.npc.trait-configure.location: true
+#      citizens.npc.trait-configure.lookclose: true
+#      citizens.npc.trait-configure.poses: true
+#      citizens.npc.trait-configure.spawned: true
+#      citizens.npc.trait-configure.speech: true
+#      citizens.npc.trait-configure.text: true
+#      citizens.npc.trait-configure.type: true
+#      citizens.npc.trait-configure.waypoints: true
+#  citizens.npc.trait.*:
+#    default: false
+#    children:
+#      citizens.npc.trait.anchors: true
+#      citizens.npc.trait.equipment: true
+#      citizens.npc.trait.gravity: true
+#      citizens.npc.trait.inventory: true
+#      citizens.npc.trait.location: true
+#      citizens.npc.trait.lookclose: true
+#      citizens.npc.trait.poses: true
+#      citizens.npc.trait.spawned: true
+#      citizens.npc.trait.speech: true
+#      citizens.npc.trait.text: true
+#      citizens.npc.trait.type: true
+#      citizens.npc.trait.waypoints: true
+#  citizens.script.*:
+#    default: false
+#    children:
+#      citizens.script.compile: true
+#      citizens.script.help: true
+#  citizens.templates.*:
+#    default: false
+#    children:
+#      citizens.templates.apply: true
+#      citizens.templates.create: true
+#      citizens.templates.help: true
+#  citizens.waypoints.*:
+#    default: false
+#    children:
+#      citizens.waypoints.disableteleport: true
+#      citizens.waypoints.help: true
+#      citizens.waypoints.provider: true
+## -------------------------------------------- #
+## KITS
+## -------------------------------------------- #
+#  citizens.kit.op:
+#    default: op
+#    children:
+#      citizens.*: true
