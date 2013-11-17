@@ -1,0 +1,8 @@
+##Config file for DatabaseAPI
+##Plugin made by Codisimus
+
+host:
+port:
+database:
+username:
+password:

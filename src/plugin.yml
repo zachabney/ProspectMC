@@ -1,0 +1,5 @@
+name: DatabaseAPI
+main: net.prospectmc.DatabaseAPI
+version: 1.4
+author: Codisimus
+website: www.codisimus.com
