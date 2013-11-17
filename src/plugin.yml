@@ -1,0 +1,20 @@
+name: Econ
+main: com.codisimus.plugins.econ.Econ
+version: 0.5.0
+author: Codisimus
+website: www.codisimus.com
+description: Simple economy plugin
+softdepend: [Vault]
+startup: postworld
+commands:
+  money:
+    description: See how much money you have
+    usage: /money
+  grant:
+    description: Grant a Player money
+    usage: /grant <Player> <Amount>
+    permission: econ.grant
+    permission-message: You do not have permission to do that
+permissions:
+  econ.grant:
+    default: op
