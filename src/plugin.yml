@@ -1,0 +1,13 @@
+name: RegionAPI
+main: com.codisimus.plugins.regionapi.RegionAPI
+version: 0.6.0
+author: Codisimus
+website: www.codisimus.com
+description: Area protection/tools based on polygonal regions
+startup: postworld
+depend: [RegionTools, dynmap, Factions]
+permissions:
+  regionapi.faction:
+    description: Needed to set the faction of a Region (/region faction)
+  regionapi.tier:
+    description: Needed to set the tier of a Region (/region tier)
