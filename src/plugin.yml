@@ -1,0 +1,6 @@
+main: com.codisimus.plugins.testplugin.TestPlugin
+version: 0.1
+name: TestPlugin
+commands:
+  test:
+  blind:
