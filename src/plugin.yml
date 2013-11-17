@@ -1,0 +1,10 @@
+name: LandProtect
+main: com.codisimus.plugins.landprotect.LandProtect
+version: 0.5
+author: Codisimus
+website: www.codisimus.com
+description: Prevents Players from building and protects the land
+startup: postworld
+permissions:
+  build:
+    description: Needed to build
