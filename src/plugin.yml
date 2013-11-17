@@ -1,0 +1,11 @@
+name: Banker
+main: com.codisimus.plugins.banker.Banker
+version: 0.3.0
+author: Codisimus
+website: www.codisimus.com
+description: Allows Players to store money/items
+startup: postworld
+commands:
+  bank:
+    description: Open your bank account
+    usage: /bank

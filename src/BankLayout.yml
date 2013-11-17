@@ -1,0 +1,148 @@
+DefaultInventory:
+- ==: org.bukkit.inventory.ItemStack
+  type: ENDER_CHEST
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §cYOUR BANK ACCOUNT
+    lore:
+    - §3Your bank account
+    - §3currently has
+    - §e1000gp
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOL
+  damage: 15
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §0
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOL
+  damage: 15
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §0
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOL
+  damage: 15
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §0
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOL
+  damage: 15
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §0
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOL
+  damage: 15
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §0
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOL
+  damage: 15
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §0
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOL
+  damage: 14
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §4PREVIOUS PAGE
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOL
+  damage: 5
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §aNEXT PAGE
+- ==: org.bukkit.inventory.ItemStack
+  type: CHEST
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §cYOUR POCKET
+    lore:
+    - §3You are
+    - §3currently
+    - §3holding
+    - §e1000gp
+- ==: org.bukkit.inventory.ItemStack
+  type: WOOL
+  damage: 15
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §0
+- ==: org.bukkit.inventory.ItemStack
+  type: GLOWSTONE_DUST
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §e1gp
+    lore:
+    - Left click to deposit
+    - Right click to withdraw
+- ==: org.bukkit.inventory.ItemStack
+  type: GLOWSTONE_DUST
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §e10gp
+    lore:
+    - Left click to deposit
+    - Right click to withdraw
+- ==: org.bukkit.inventory.ItemStack
+  type: GOLD_NUGGET
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §e100gp
+    lore:
+    - Left click to deposit
+    - Right click to withdraw
+- ==: org.bukkit.inventory.ItemStack
+  type: GOLD_NUGGET
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §e1,000gp
+    lore:
+    - Left click to deposit
+    - Right click to withdraw
+- ==: org.bukkit.inventory.ItemStack
+  type: GOLD_INGOT
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §e10,000gp
+    lore:
+    - Left click to deposit
+    - Right click to withdraw
+- ==: org.bukkit.inventory.ItemStack
+  type: GOLD_INGOT
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §e100,000gp
+    lore:
+    - Left click to deposit
+    - Right click to withdraw
+- ==: org.bukkit.inventory.ItemStack
+  type: GOLD_BLOCK
+  meta:
+    ==: ItemMeta
+    meta-type: UNSPECIFIC
+    display-name: §e1,000,000gp
+    lore:
+    - Left click to deposit
+    - Right click to withdraw
