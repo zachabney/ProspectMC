@@ -104,12 +104,16 @@ public class DatabaseAPI extends JavaPlugin {
      * Refreshes the connection with the database
      */
     private static void refreshConnection() {
-        if (con == null) {
-            try {
-                con = DriverManager.getConnection(url, username, password);
-            } catch (SQLException ex) {
-                logger.log(Level.SEVERE, "Error connecting to database", ex);
+        try {
+            if (con == null || !con.isValid(0)) {
+                try {
+                    con = DriverManager.getConnection(url, username, password);
+                } catch (SQLException ex) {
+                    logger.log(Level.SEVERE, "Error connecting to database", ex);
+                }
             }
+        } catch (SQLException ex) {
+            logger.log(Level.SEVERE, "Something that should never happen has happened!", ex);
         }
     }
 }
