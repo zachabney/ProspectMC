@@ -1,85 +1,232 @@
 package com.zta192.AttributeAPI;
 
-import java.util.UUID;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
-import net.minecraft.server.v1_6_R3.NBTTagCompound;
+public enum Attribute {
+    /* MINECRAFT */
+    MAX_HEALTH(
+        "Max Health",
+        "generic.maxHealth",
+        "health"
+    ),
+    FOLLOW_RANGE(
+        "Follow Range",
+        "generic.followRange",
+        "follow"
+    ),
+    KNOCKBACK_RESISTANCE(
+        "Knockback Resistance",
+        "generic.knockbackResistance",
+        "knockback"
+    ),
+    SPEED_MODIFIER(
+        "Speed",
+        "generic.movementSpeed",
+        "speed"
+    ),
+    ATTACK_DAMAGE(
+        "Attack Damage",
+        "generic.attackDamage",
+        "attack"
+    ),
+    JUMP_STRENGTH(
+        "Jump Strength",
+        "horse.jumpStrength",
+        "jump"
+    ),
+    SPAWN_REINFORCEMENTS(
+        "Spawn Reinforcements",
+        "zombie.spawnReinforcements",
+        "spawn"
+    ),
 
-public class Attribute {
-	
-	public static enum Operation {
-		
-		ADD(0), MULTIPLY_PERCENTAGE(1), ADD_PERCENTAGE(2);
-		
-		private int operationID;
-		
-		Operation(int operationID) {
-			this.operationID = operationID;
-		}
-		
-		public static Operation getOperationFromID(int id) {
-			for(Operation operation : Operation.values()) {
-				if(operation.operationID == id) return operation;
-			}
-			return null;
-		}
-		
-	}
-	
-	private String attributeName;
-	private String name;
-	private double amount;
-	private Operation operation;
-	private UUID uuid;
-	
-	public Attribute(String attributeName, String name, double amount, Operation operation, UUID uuid) {
-		this.attributeName = attributeName;
-		this.name = name;
-		this.amount = amount;
-		this.operation = operation;
-		this.uuid = uuid;
-	}
-	
-	public Attribute(String attributeName, String name, double amount, Operation operation) {
-		this(attributeName, name, amount, operation, UUID.randomUUID());
-	}
-	
-	public Attribute(NBTTagCompound compound) {
-		this.attributeName = compound.getString("AttributeName");
-		this.name = compound.getString("Name");
-		this.amount = compound.getDouble("Amount");
-		this.operation = Operation.getOperationFromID(compound.getInt("Operation"));
-		this.uuid = new UUID(compound.getLong("UUIDMost"), compound.getLong("UUIDLeast"));
-	}
-	
-	public String getAttributeName() {
-		return attributeName;
-	}
-	
-	public String getName() {
-		return name;
-	}
-	
-	public double getAmount() {
-		return amount;
-	}
-	
-	public Operation getOperation() {
-		return operation;
-	}
-	
-	public UUID getUUID() {
-		return uuid;
-	}
-	
-	public NBTTagCompound build() {
-		NBTTagCompound attribute = new NBTTagCompound();
-		attribute.setString("AttributeName", attributeName);
-		attribute.setString("Name", name);
-		attribute.setDouble("Amount", amount);
-		attribute.setInt("Operation", operation.operationID);
-		attribute.setLong("UUIDMost", uuid.getMostSignificantBits());
-		attribute.setLong("UUIDLeast", uuid.getLeastSignificantBits());
-		return attribute;
-	}
-	
+    /* PROSPECT */
+    POISON_RESISTANCE(
+        "Poison Resistance",
+        "antipoison"
+    ),
+    POISON_DAMAGE(
+        "Poison Damage",
+        "poison",
+        POISON_RESISTANCE,
+        PotionEffectType.POISON
+    ),
+    ICE_RESISTANCE(
+        "Ice Resistance",
+        "antiice"
+    ),
+    ICE_DAMAGE(
+        "Ice Damage",
+        "ice",
+        ICE_RESISTANCE,
+        PotionEffectType.SLOW
+    ),
+    FIRE_RESISTANCE(
+        "Fire Resistance",
+        "antifire"
+    ),
+    FIRE_DAMAGE(
+        "Fire Damage",
+        "fire",
+        FIRE_RESISTANCE,
+        null
+    ),
+    SATURATION(
+        "Saturation",
+        "saturation"
+    ),
+    EXHAUSTION(
+        "Exhaustion",
+        "exhaustion",
+        SATURATION,
+        PotionEffectType.HUNGER
+    ),
+    ADAPTATION(
+        "Adaptation",
+        "adaptation"
+    ),
+    SICKNESS(
+        "Sickness",
+        "sickness",
+        ADAPTATION,
+        PotionEffectType.WITHER
+    ),
+    SANITY(
+        "Sanity",
+        "sanity"
+    ),
+    CONFUSION(
+        "Confusion",
+        "confusion",
+        SANITY,
+        PotionEffectType.CONFUSION
+    ),
+    ACCOMODATION(
+        "Accommodation",
+        "accommodation"
+    ),
+    BLINDNESS(
+        "Blindness",
+        "blind",
+        ACCOMODATION,
+        PotionEffectType.BLINDNESS
+    ),
+    ARMOR_EFFICIENCY(
+        "Armor Efficiency",
+        "antieffect",
+        0.0,
+        1.0,
+        0.3
+    ),
+    WEAPON_EFFECIENCY(
+        "Weapon Efficiency",
+        "effect",
+        ARMOR_EFFICIENCY,
+        null,
+        0.0,
+        1.0,
+        0.3
+    );
+
+    private String name;
+    private String attributeName;
+    private String alias;
+    private Attribute resistance;
+    private PotionEffectType potionEffect;
+    private double min = 0.0D;
+    private double max = 1.7976931348623157E+308D;
+    private double defaultValue = min;
+
+    private Attribute(String name, String alias) {
+        this(name, name, alias);
+        addAttribute();
+    }
+
+    private Attribute(String name, String alias, double min, double max, double defaultValue) {
+        this(name, name, alias);
+        this.min = min;
+        this.max = max;
+        this.defaultValue = defaultValue;
+        addAttribute();
+    }
+
+    private Attribute(String name, String attributeName, String alias) {
+        this.name = name;
+        this.attributeName = attributeName;
+        this.alias = alias;
+    }
+
+    private Attribute(String name, String alias, Attribute resistance, PotionEffectType potionEffect, double min, double max, double defaultValue) {
+        this.name = name;
+        attributeName = name;
+        this.alias = alias;
+        this.resistance = resistance;
+        this.potionEffect = potionEffect;
+        this.min = min;
+        this.max = max;
+        this.defaultValue = defaultValue;
+        addAttribute();
+    }
+
+    private Attribute(String name, String alias, Attribute resistance, PotionEffectType potionEffect) {
+        this.name = name;
+        attributeName = name;
+        this.alias = alias;
+        this.resistance = resistance;
+        this.potionEffect = potionEffect;
+        addAttribute();
+    }
+
+    private void addAttribute() {
+        AttributeAPI.addAttribute(this, min, max, defaultValue);
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public String getAttributeName() {
+        return attributeName;
+    }
+
+    public String getAlias() {
+        return alias;
+    }
+
+    public boolean hasResistance() {
+        return resistance != null;
+    }
+
+    public Attribute getResistance() {
+        return resistance;
+    }
+
+    public boolean hasPotionEffect() {
+        return potionEffect != null;
+    }
+
+    public PotionEffect getPotionEffect(int duration, int amplifier) {
+        return new PotionEffect(potionEffect, duration, amplifier);
+    }
+
+    public static Attribute getAttribute(String string) {
+        for (Attribute attribute : values()) {
+            if (attribute.name.equals(string)) {
+                return attribute;
+            }
+        }
+        return null;
+    }
+
+    public static Attribute getAttributeByAlias(String string) {
+        for (Attribute attribute : values()) {
+            if (attribute.alias.equals(string)) {
+                return attribute;
+            }
+        }
+        return null;
+    }
+
+    public static void init() {}
 }

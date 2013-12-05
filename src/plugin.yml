@@ -1,0 +1,11 @@
+name: AttributeAPI
+main: com.zta192.AttributeAPI.AttributeAPI
+version: 3.2.0
+author: zta192, Codisimus
+website: http://zta192.com
+description: AttributeAPI.
+commands:
+  attribute:
+    description: Used to apply attribute modifiers
+    usage: /<command> help
+    aliases: [att]
