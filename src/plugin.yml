@@ -1,0 +1,4 @@
+name: DamageAPI
+main: net.prospectmc.damageapi.DamageAPI
+version: 2.1.0
+author: Codisimus
