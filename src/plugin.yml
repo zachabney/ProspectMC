@@ -1,0 +1,6 @@
+name: Factions
+main: net.prospectmc.Factions
+version: 1.0.3
+author: Codisimus
+website: www.prospectmc.net
+depend: [DatabaseAPI]
