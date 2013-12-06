@@ -9,6 +9,7 @@ import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.scoreboard.DisplaySlot;
 import org.bukkit.scoreboard.Objective;
 import org.bukkit.scoreboard.Scoreboard;
+import org.bukkit.scoreboard.Team;
 
 public class ScoreboardAPI extends JavaPlugin implements Listener {
 
@@ -19,20 +20,18 @@ public class ScoreboardAPI extends JavaPlugin implements Listener {
 
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
-		createScoreboard(event.getPlayer());
-	}
-
-	private static void createScoreboard(Player player) {
-		System.out.println("Create");
-		Scoreboard board = Bukkit.getScoreboardManager().getNewScoreboard();
-		Objective factionObj = board.getObjective("faction-level");
-		if(factionObj == null) {
-			factionObj = board.registerNewObjective("faction-level", "dummy");
-			factionObj.setDisplayName("Â§4" + player.getName());
-			factionObj.setDisplaySlot(DisplaySlot.BELOW_NAME);
-		}
-		factionObj.getScore(player).setScore(5);
-		for(Player p : Bukkit.getOnlinePlayers()) p.setScoreboard(board);
+		Scoreboard board = Bukkit.getScoreboardManager().getMainScoreboard();
+		Team team1 = board.getTeam("team1");
+		if(team1 == null) team1 = board.registerNewTeam("team1");
+		Team team2 = board.getTeam("team2");
+		if(team2 == null) team2 = board.registerNewTeam("team2");
+		team1.setPrefix("§a");
+		team2.setPrefix("§c");
+		
+		if(team1.getSize() > 0) {
+			team2.addPlayer(event.getPlayer());
+		} else team1.addPlayer(event.getPlayer());
+		event.getPlayer().setScoreboard(board);
 	}
 
 }
