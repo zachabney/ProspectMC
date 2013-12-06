@@ -61,7 +61,7 @@ public class AttributeCommand {
         for (Attribute attribute : Attribute.values()) {
             double value = AttributeAPI.getValue(player, attribute);
             if (value > 0) {
-                player.sendMessage("§5" + attribute.getName() + ": §6" + 0);
+                player.sendMessage("§5" + attribute.getName() + ": §6" + value);
             }
         }
         return true;
