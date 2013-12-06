@@ -37,7 +37,21 @@ public class AttributeAPI extends JavaPlugin {
         if (customAttributes.containsKey(attribute.getName())) {
             return e.bc().a(attribute.getName()).getValue();
         } else {
-            return 0;
+            IAttribute iAttribute;
+            if (GenericAttributes.a.a().equals(attribute.getName())) {
+                iAttribute = GenericAttributes.a;
+            } else if (GenericAttributes.b.a().equals(attribute.getName())) {
+                iAttribute = GenericAttributes.b;
+            } else if (GenericAttributes.c.a().equals(attribute.getName())) {
+                iAttribute = GenericAttributes.c;
+            } else if (GenericAttributes.d.a().equals(attribute.getName())) {
+                iAttribute = GenericAttributes.d;
+            } else if (GenericAttributes.e.a().equals(attribute.getName())) {
+                iAttribute = GenericAttributes.e;
+            } else {
+                return 0;
+            }
+            return e.getAttributeInstance(iAttribute).getValue();
         }
     }
 

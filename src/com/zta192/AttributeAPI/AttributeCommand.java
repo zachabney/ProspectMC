@@ -45,11 +45,25 @@ public class AttributeCommand {
     @CodCommand(
         command = "value",
         usage = {
-            "§2<command> §f=§b List your value for the specified Attribute"
+            "§2<command> [Attribute]§f=§b List your value for the specified Attribute"
         }
     )
     public boolean value(Player player, Attribute attribute) {
         player.sendMessage("§5" + attribute.getName() + ": §6" + AttributeAPI.getValue(player, attribute));
+        return true;
+    }
+    @CodCommand(command = "value",
+        usage = {
+            "§2<command> [Attribute]§f=§b List your value for the specified Attribute"
+        }
+    )
+    public boolean value(Player player) {
+        for (Attribute attribute : Attribute.values()) {
+            double value = AttributeAPI.getValue(player, attribute);
+            if (value > 0) {
+                player.sendMessage("§5" + attribute.getName() + ": §6" + 0);
+            }
+        }
         return true;
     }
 
