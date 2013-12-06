@@ -34,7 +34,11 @@ public class AttributeAPI extends JavaPlugin {
 
     public static double getValue(LivingEntity entity, Attribute attribute) {
         EntityLiving e = ((CraftLivingEntity) entity).getHandle();
-        return e.bc().a(attribute.getName()).getValue();
+        if (customAttributes.containsKey(attribute.getName())) {
+            return e.bc().a(attribute.getName()).getValue();
+        } else {
+            return 0;
+        }
     }
 
     public static ItemStack clearModifiers(ItemStack stack) {
