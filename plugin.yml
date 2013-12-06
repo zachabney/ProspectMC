@@ -1,7 +1,8 @@
 name: ScoreboardAPI
-main: net.prospectmc.scoreboardapi.ScoreboredAPI
+main: net.prospectmc.scoreboardapi.ScoreboardAPI
 version: 0.1.0
-author: zta192, Codisimus
+author: [zta192, codisimus]
+description: tits
 commands:
   scoreboard:
     description: Used to toggle scoreboards
