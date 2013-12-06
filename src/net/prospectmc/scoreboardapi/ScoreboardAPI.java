@@ -28,7 +28,7 @@ public class ScoreboardAPI extends JavaPlugin implements Listener {
 		Objective factionObj = board.getObjective("faction-level");
 		if(factionObj == null) {
 			factionObj = board.registerNewObjective("faction-level", "dummy");
-			factionObj.setDisplayName("§4Ranger");
+			factionObj.setDisplayName("§4" + player.getName());
 			factionObj.setDisplaySlot(DisplaySlot.BELOW_NAME);
 		}
 		factionObj.getScore(player).setScore(5);
