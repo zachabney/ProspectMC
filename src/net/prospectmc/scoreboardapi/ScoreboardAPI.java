@@ -16,7 +16,7 @@ public class ScoreboardAPI extends JavaPlugin implements Listener {
 	public void onEnable() {
 		Bukkit.getPluginManager().registerEvents(this, this);
 	}
-	
+
 	@EventHandler
 	public void onPlayerJoin(PlayerJoinEvent event) {
 		createScoreboard(event.getPlayer());
@@ -28,7 +28,7 @@ public class ScoreboardAPI extends JavaPlugin implements Listener {
 		Objective factionObj = board.getObjective("faction-level");
 		if(factionObj == null) {
 			factionObj = board.registerNewObjective("faction-level", "dummy");
-			factionObj.setDisplayName("ง4Ranger");
+			factionObj.setDisplayName("ยง4Ranger");
 			factionObj.setDisplaySlot(DisplaySlot.BELOW_NAME);
 		}
 		factionObj.getScore(player).setScore(5);
