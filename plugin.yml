@@ -1,0 +1,12 @@
+name: WeaponsPlus
+main: net.prospectmc.weaponsplus.WeaponsPlus
+version: 1.0
+author: zta192
+website: http://prospectmc.net
+depends: [NMSApi]
+description: Custom weapons for classes.
+commands:
+  wp:
+    aliases: [weaponsplus]
+    usage: /<command>
+    description: Shows the help page for WeaponsPlus
