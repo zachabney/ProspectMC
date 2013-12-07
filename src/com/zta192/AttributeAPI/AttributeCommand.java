@@ -6,7 +6,7 @@ import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
 /**
- * Executes Player Commands
+ * Executes /attribute Commands
  *
  * @author Codisimus
  */
