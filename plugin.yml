@@ -1,0 +1,9 @@
+name: NMSApi
+main: net.prospectmc.nmsapi.NMSApi
+version: 1.0
+author: zta192
+website: http://prospectmc.net
+description: Provides the required methods to apply NMS Compounds to items.
+commands:
+  apply:
+    description: Idk
