@@ -34,6 +34,7 @@ public class NMSApi extends JavaPlugin {
 	 * @return the ItemStack with the NMS variables applied
 	 */
 	public static ItemStack addNMS(String plugin, ItemStack stack, String key, Object value) {
+		if(stack == null) return null;
 		net.minecraft.server.v1_7_R1.ItemStack nms = CraftItemStack.asNMSCopy(stack);
 		NBTTagCompound tc = nms.getTag();
 		if(tc == null) tc = new NBTTagCompound();
@@ -107,6 +108,7 @@ public class NMSApi extends JavaPlugin {
 	 * @return the ItemStack with the NMS removed
 	 */
 	public static ItemStack removeNMS(String plugin, ItemStack stack, String key) {
+		if(stack == null) return null;
 		net.minecraft.server.v1_7_R1.ItemStack nms = CraftItemStack.asNMSCopy(stack);
 		NBTTagCompound tc = nms.getTag();
 		if(tc == null) return stack;
@@ -149,6 +151,7 @@ public class NMSApi extends JavaPlugin {
 		} catch (IllegalArgumentException e) {
 			throw new IllegalArgumentException("Invalid type");
 		}
+		if(stack == null) return null;
 		net.minecraft.server.v1_7_R1.ItemStack nms = CraftItemStack.asNMSCopy(stack);
 		NBTTagCompound tc = nms.getTag();
 		if(tc == null) return null;
