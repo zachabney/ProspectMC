@@ -5,3 +5,4 @@ Weapons:
       - '&7Fire this at'
       - '&7your enemy to'
       - '&7slow them down'
+    Velocity Multiplier: 1.8

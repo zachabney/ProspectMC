@@ -6,6 +6,7 @@ import java.util.List;
 import net.prospectmc.weaponsplus.commands.CommandHandler;
 import net.prospectmc.weaponsplus.commands.WeaponsPlusCommands;
 
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.PluginDescriptionFile;
@@ -34,6 +35,7 @@ public class WeaponsPlus extends JavaPlugin {
 			e.printStackTrace();
 		}
 		new CommandHandler(this).registerCommands(WeaponsPlusCommands.class);
+		registerWeaponListeners();
 		PluginDescriptionFile pdfFile = this.getDescription();
 		getLogger().info(pdfFile.getName() + " v" + pdfFile.getVersion() + " by Zach Abney enabled!");
 	}
@@ -42,6 +44,15 @@ public class WeaponsPlus extends JavaPlugin {
 	public void onDisable() {
 		PluginDescriptionFile pdfFile = this.getDescription();
 		getLogger().info(pdfFile.getName() + " by Zach Abney disabled.");
+	}
+	
+	/**
+	 * Registers each Weapon's listener with Bukkit
+	 */
+	private void registerWeaponListeners() {
+		for(Weapon weapon : Weapon.values()) {
+			Bukkit.getPluginManager().registerEvents(weapon.getWPWeapon(), this);
+		}
 	}
 	
 	/**
@@ -67,6 +78,16 @@ public class WeaponsPlus extends JavaPlugin {
 			lore.set(i, ChatColor.translateAlternateColorCodes('&', lore.get(i)));
 		}
 		return lore;
+	}
+	
+	/**
+	 * Returns the velocity multiplier for the specified item
+	 * 
+	 * @param item The name of the item
+	 * @return the velocity multiplier for the item
+	 */
+	public static float getVelocityMultiplier(String item) {
+		return (float) config.getDouble("Weapons." + item + ".Velocity Multiplier");
 	}
 	
 }
