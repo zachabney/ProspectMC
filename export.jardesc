@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="WINDOWS-1252" standalone="no"?>
 <jardesc>
-    <jar path="C:/Users/Owner/Desktop/Test Server/plugins/AttributeAPI.jar"/>
+    <jar path="C:/Users/Owner/Desktop/AttributeAPI.jar"/>
     <options buildIfNeeded="true" compress="true" descriptionLocation="/AttributeAPI/export.jardesc" exportErrors="true" exportWarnings="true" includeDirectoryEntries="false" overwrite="true" saveDescription="true" storeRefactorings="false" useSourceFolders="false"/>
     <storedRefactorings deprecationInfo="true" structuralOnly="false"/>
     <selectedProjects/>
@@ -14,6 +14,7 @@
         <file path="/AttributeAPI/plugin.yml"/>
         <file path="/AttributeAPI/.project"/>
         <file path="/AttributeAPI/.classpath"/>
+        <folder path="/AttributeAPI/.settings"/>
         <javaElement handleIdentifier="=AttributeAPI/src"/>
     </selectedElements>
 </jardesc>

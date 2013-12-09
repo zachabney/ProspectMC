@@ -31,7 +31,7 @@ public enum Attribute {
     KNOCKBACK_RESISTANCE(
         "Knockback Resistance",
         "generic.knockbackResistance",
-        "knockback"
+        "antiknockback"
     ),
     SPEED_MODIFIER(
         "Speed",
@@ -149,7 +149,22 @@ public enum Attribute {
         0.0,
         1.0,
         0.3
+    ),
+    KNOCKBACK(
+    	"Knockback",
+    	"knockback"
     );
+    
+    /* PROSPECT */
+    //ENUM_NAME(
+    //    "full/id name",
+    //    "friendly name",
+    //    "resistance attribute",
+    //    "status effect",
+    //    "min value",
+    //    "max value",
+    //    "default value"
+    //),
 
     private String name; //Full name for printing purposes
     private String attributeName; //id that Minecraft/Bukkit uses
