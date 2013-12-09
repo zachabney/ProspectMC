@@ -2,7 +2,6 @@ package net.prospectmc.weaponsplus.weapons;
 
 import net.prospectmc.weaponsplus.Weapon;
 
-import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.bukkit.inventory.ItemStack;
 
@@ -34,13 +33,6 @@ public abstract class WPWeapon implements Listener {
 	 * @return the name of the weapon in the config file
 	 */
 	public abstract String getName();
-	
-	/**
-	 * Triggers the weapon's fire sequence for the given player
-	 * 
-	 * @param player The player triggering the weapon
-	 */
-	public abstract void playerTrigger(Player player);
 	
 	/**
 	 * Returns an item stack with one weapon
