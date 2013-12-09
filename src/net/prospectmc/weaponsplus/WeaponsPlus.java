@@ -1,6 +1,7 @@
 package net.prospectmc.weaponsplus;
 
 import java.io.File;
+import java.lang.reflect.Field;
 import java.util.List;
 
 import net.prospectmc.weaponsplus.commands.CommandHandler;
@@ -9,6 +10,7 @@ import net.prospectmc.weaponsplus.commands.WeaponsPlusCommands;
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -20,10 +22,22 @@ import org.bukkit.plugin.java.JavaPlugin;
 public class WeaponsPlus extends JavaPlugin {
 	
 	public static final String TYPE = "type";
+	public static final int COOLDOWN_ID = 120;
+	public static WeaponsPlus plugin;
 	private static YamlConfiguration config;
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public void onEnable() {
+		plugin = this;
+		try {
+			Field f = Enchantment.class.getDeclaredField("acceptingNew");
+			f.setAccessible(true);
+			f.set(null, true);
+		} catch (Exception e) {
+			e.printStackTrace();
+		}
+		if(Enchantment.getById(COOLDOWN_ID) == null) Enchantment.registerEnchantment(new Cooldown(120));
 		getDataFolder().mkdirs();
 		File file = new File(getDataFolder() + "/Config.yml");
 		if(!file.exists()) saveResource("Config.yml", false);
@@ -88,6 +102,26 @@ public class WeaponsPlus extends JavaPlugin {
 	 */
 	public static float getVelocityMultiplier(String item) {
 		return (float) config.getDouble("Weapons." + item + ".Velocity Multiplier");
+	}
+	
+	/**
+	 * Returns the cooldown, in ticks, for the specified item
+	 * 
+	 * @param item The name of the item
+	 * @return the cooldown in ticks
+	 */
+	public static int getCooldownTicks(String item) {
+		return config.getInt("Weapons." + item + ".Cooldown (Ticks)");
+	}
+	
+	/**
+	 * Returns the knockback for the specified item
+	 * 
+	 * @param item The name of the item
+	 * @return the knockback of the item
+	 */
+	public static float getKnockback(String item) {
+		return (float) config.getDouble("Weapons." + item + ".Knockback");
 	}
 	
 }

@@ -61,6 +61,7 @@ public abstract class ProjectileWeapon extends WPWeapon {
 		loc = loc.add(player.getVelocity());
 		Vector dir = player.getLocation().getDirection();
 		loc = loc.add(getThrowableHeading(dir.getX(), dir.getY(), dir.getZ(), 1.5F, 1F));
+		player.setVelocity(player.getVelocity().add(player.getLocation().getDirection().multiply(-WeaponsPlus.getKnockback(getName()))));
 		return launchProjectile(loc, player.getLocation().getDirection().multiply(WeaponsPlus.getVelocityMultiplier(getName())));
 	}
 	

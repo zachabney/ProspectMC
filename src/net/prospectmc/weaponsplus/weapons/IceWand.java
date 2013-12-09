@@ -7,6 +7,7 @@ import net.prospectmc.weaponsplus.WeaponsPlus;
 import org.bukkit.Location;
 import org.bukkit.Material;
 import org.bukkit.Sound;
+import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
 import org.bukkit.event.EventHandler;
@@ -23,6 +24,7 @@ import org.bukkit.util.Vector;
  */
 public class IceWand extends ProjectileWeapon {
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public ItemStack getItem(int amount) {
 		ItemStack stack = new ItemStack(Material.IRON_HOE);
@@ -30,7 +32,9 @@ public class IceWand extends ProjectileWeapon {
 		meta.setDisplayName(WeaponsPlus.getDisplayName(getName()));
 		meta.setLore(WeaponsPlus.getLore(getName()));
 		stack.setItemMeta(meta);
-		return NMSApi.addNMS("WeaponsPlus", stack, WeaponsPlus.TYPE, getType().name());
+		stack = NMSApi.addNMS("WeaponsPlus", stack, WeaponsPlus.TYPE, getType().name());
+		stack.addEnchantment(Enchantment.getById(WeaponsPlus.COOLDOWN_ID), 1);
+		return stack;
 	}
 	
 	@Override
@@ -53,9 +57,11 @@ public class IceWand extends ProjectileWeapon {
 	
 	@EventHandler
 	public void onPlayerLeftClick(PlayerInteractEvent event) {
-		if(event.getAction() == Action.LEFT_CLICK_AIR && Weapon.getType(event.getPlayer().getItemInHand()) == getType()) {
-			launchProjectile(event.getPlayer());
-		}
+		if(event.getAction() != Action.LEFT_CLICK_AIR) return;
+		ItemStack item = event.getPlayer().getItemInHand();
+		if(Weapon.getType(item) != getType() || !isCooledDown(item)) return;
+		launchProjectile(event.getPlayer());
+		beginCooldown(item);
 	}
 	
 }
