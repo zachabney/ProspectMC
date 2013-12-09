@@ -44,10 +44,11 @@ public class IceWand extends ProjectileWeapon {
 	}
 	
 	@Override
-	public void launchProjectile(Location loc, Vector vec) {
+	public Entity launchProjectile(Location loc, Vector vec) {
 		Entity entity = loc.getWorld().spawnEntity(loc, EntityType.SNOWBALL);
 		entity.setVelocity(vec);
 		loc.getWorld().playSound(loc, Sound.FIZZ, 0.35F, 0.75F);
+		return entity;
 	}
 	
 	@EventHandler
