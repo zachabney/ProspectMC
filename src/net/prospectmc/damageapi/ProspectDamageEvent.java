@@ -9,7 +9,8 @@ import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
 
 /**
- * A ProspectDamageEvent is the only damage event you ever need nuff said.
+ * A ProspectDamageEvent is the only damage event you ever need
+ * nuff said.
  *
  * @author Codisimus
  */
@@ -25,18 +26,12 @@ public class ProspectDamageEvent extends Event {
     /**
      * Constructs a new ProspectDamageEvent
      *
-     * @param victim
-     *            The LivingEntity being damaged
-     * @param attacker
-     *            The Entity causing the damage (Player, Mob, Projectile, etc)
-     *            may be null
-     * @param damage
-     *            The amount of damage that is occurring
-     * @param cause
-     *            The DamageCause
+     * @param victim The LivingEntity being damaged
+     * @param attacker The Entity causing the damage (Player, Mob, Projectile, etc) may be null
+     * @param damage The amount of damage that is occurring
+     * @param cause The DamageCause
      */
-    public ProspectDamageEvent(LivingEntity victim, Entity attacker,
-                               double damage, DamageCause cause) {
+    public ProspectDamageEvent(LivingEntity victim, Entity attacker, double damage, DamageCause cause) {
         this.victim = victim;
         this.attacker = attacker;
         this.damage = damage;
@@ -100,10 +95,8 @@ public class ProspectDamageEvent extends Event {
         if (hasAttacker()) {
             if (isAttributeEffect()) {
                 return DamageAPI.getAttacker(victim, cause);
-            } else {
-                if (isRangedAttack()) {
-                    return getShooter();
-                }
+            } else if (isRangedAttack()) {
+                return getShooter();
             }
         }
         return null;
@@ -120,7 +113,6 @@ public class ProspectDamageEvent extends Event {
 
     /**
      * Returns the projectile which cause this event
-     *
      * @return The Entity which cause this event
      */
     public Entity getProjectile() {
@@ -148,8 +140,7 @@ public class ProspectDamageEvent extends Event {
     /**
      * Sets the amount of damage to occur
      *
-     * @param damage
-     *            The new amount of damage
+     * @param damage The new amount of damage
      */
     public void setDamage(double damage) {
         this.damage = damage;
@@ -240,8 +231,7 @@ public class ProspectDamageEvent extends Event {
      * @return true if this event is Player versus Player
      */
     public boolean isPvP() {
-        return hasAttacker() && victim instanceof Player
-                && getAttacker() instanceof Player;
+        return hasAttacker() && victim instanceof Player && getAttacker() instanceof Player;
     }
 
     /**
@@ -256,8 +246,7 @@ public class ProspectDamageEvent extends Event {
     /**
      * Cancels this event from occurring
      *
-     * @param cancel
-     *            true if this event should be canceled
+     * @param cancel true if this event should be canceled
      */
     public void setCancelled(boolean cancel) {
         this.cancelled = cancel;

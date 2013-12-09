@@ -38,25 +38,20 @@ public class DamageAPI extends JavaPlugin implements Listener {
     /**
      * Registers an entity as being damaged by status effects
      *
-     * @param victim
-     *            The LivingEntity being damaged
-     * @param cause
-     *            The DamageCause that the ProspectDamageEvent will detect
-     * @param attacker
-     *            The LivingEntity which caused the damage
-     * @param duration
-     *            How long the damage is to be registered for
+     * @param victim The LivingEntity being damaged
+     * @param cause The DamageCause that the ProspectDamageEvent will detect
+     * @param attacker The LivingEntity which caused the damage
+     * @param duration How long the damage is to be registered for
      */
-    public static void registerDamageCause(LivingEntity victim,
-                                           DamageCause cause, LivingEntity attacker, int duration) {
-        // Create a unique key
+    public static void registerDamageCause(LivingEntity victim, DamageCause cause, LivingEntity attacker, int duration) {
+        //Create a unique key
         final String key = victim.getUniqueId() + "." + cause.name();
-        // New status effects overwrite old ones
+        //New status effects overwrite old ones
         if (tasks.containsKey(key)) {
             tasks.get(key).cancel();
         }
         attributeEffects.put(key, attacker);
-        // Trigger to remove the key in the set duration
+        //Trigger to remove the key in the set duration
         tasks.put(key, new BukkitRunnable() {
             @Override
             public void run() {
@@ -69,15 +64,11 @@ public class DamageAPI extends JavaPlugin implements Listener {
     /**
      * Returns the Entity which is causing the damage cause if any
      *
-     * @param victim
-     *            The LivingEntity being damaged
-     * @param cause
-     *            The DamageCause
-     * @return The LivingEntity which is register as the damage causer, or null
-     *         if none are registered
+     * @param victim The LivingEntity being damaged
+     * @param cause The DamageCause
+     * @return The LivingEntity which is register as the damage causer, or null if none are registered
      */
-    public static LivingEntity getAttacker(LivingEntity victim,
-                                           DamageCause cause) {
+    public static LivingEntity getAttacker(LivingEntity victim, DamageCause cause) {
         String key = victim.getUniqueId() + "." + cause.name();
         return attributeEffects.get(key);
     }
@@ -85,31 +76,28 @@ public class DamageAPI extends JavaPlugin implements Listener {
     /**
      * Registers the given Entity as a projectile
      *
-     * @param shooter
-     *            The LivingEntity responsible for launching the projectile
-     * @param thrown
-     *            The Entity which is being used as a projectile
+     * @param shooter The LivingEntity responsible for launching the projectile
+     * @param thrown The Entity which is being used as a projectile
      */
-    public static void registerProjectile(LivingEntity shooter,
-                                          org.bukkit.entity.Entity thrown) {
+    public static void registerProjectile(LivingEntity shooter, org.bukkit.entity.Entity thrown) {
         projectiles.put(thrown.getUniqueId(), new DamageSnapshot(shooter));
     }
 
     /**
-     * Returns the DamageSnapshot for the given Entity If the Entity is a
-     * Player, a new snapshot will be created otherwise the registered snapshot
-     * will be returned if there is one
+     * Returns the DamageSnapshot for the given Entity
+     * If the Entity is a Player, a new snapshot will be created
+     * otherwise the registered snapshot will be returned if there is one
      *
-     * @param damager
-     *            The Entity which is causing damage
+     * @param damager The Entity which is causing damage
      * @return The DamageSnapshot for the Entity
      */
     public static DamageSnapshot getDamageSnapshot(Entity damager) {
-        return damager instanceof Player ? new DamageSnapshot((Player) damager)
+        return damager instanceof Player
+               ? new DamageSnapshot((Player) damager)
                : projectiles.remove(damager.getUniqueId());
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.MONITOR)
+    @EventHandler (ignoreCancelled = true, priority = EventPriority.MONITOR)
     public void onProjectileLaunch(ProjectileLaunchEvent event) {
         final Projectile projectile = event.getEntity();
         LivingEntity shooter = projectile.getShooter();
@@ -117,7 +105,7 @@ public class DamageAPI extends JavaPlugin implements Listener {
             return;
         }
         DamageAPI.registerProjectile(shooter, projectile);
-        // Free up space after time
+        //Free up space after time
         new BukkitRunnable() {
             @Override
             public void run() {
@@ -126,22 +114,22 @@ public class DamageAPI extends JavaPlugin implements Listener {
         }.runTaskLater(this, 20 * 30);
     }
 
-    @EventHandler(ignoreCancelled = true, priority = EventPriority.HIGHEST)
+    @EventHandler (ignoreCancelled = true, priority = EventPriority.HIGHEST)
     public void onEntityDamage(EntityDamageEvent event) {
-        // We only care about hurting living things
+        //We only care about hurting living things
         if (!(event.getEntity() instanceof LivingEntity)) {
             return;
         }
 
         LivingEntity victim = (LivingEntity) event.getEntity();
-        Entity attacker = event instanceof EntityDamageByEntityEvent ? ((EntityDamageByEntityEvent) event)
-                .getDamager() : null;
+        Entity attacker = event instanceof EntityDamageByEntityEvent
+                          ? ((EntityDamageByEntityEvent) event).getDamager()
+                          : null;
         double damage = event.getDamage();
         DamageCause cause = event.getCause();
 
-        // Trigger a ProspectDamageEvent
-        ProspectDamageEvent pEvent = new ProspectDamageEvent(victim, attacker,
-                                                             damage, cause);
+        //Trigger a ProspectDamageEvent
+        ProspectDamageEvent pEvent = new ProspectDamageEvent(victim, attacker, damage, cause);
         if (pEvent.isCancelled()) {
             event.setCancelled(true);
         } else {
