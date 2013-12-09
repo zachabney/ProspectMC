@@ -60,8 +60,7 @@ public class IceWand extends ProjectileWeapon {
 		if(event.getAction() != Action.LEFT_CLICK_AIR) return;
 		ItemStack item = event.getPlayer().getItemInHand();
 		if(Weapon.getType(item) != getType() || !isCooledDown(item)) return;
-		launchProjectile(event.getPlayer());
-		beginCooldown(item);
+		if(launchProjectile(event.getPlayer()) != null) beginCooldown(item);
 	}
 	
 }
