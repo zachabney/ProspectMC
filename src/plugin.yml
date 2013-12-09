@@ -1,6 +1,6 @@
 name: ScoreboardAPI
 main: net.prospectmc.scoreboardapi.ScoreboardAPI
-version: 0.1.0
+version: 0.1.1
 author: [zta192, codisimus]
 description: Displays scoreboards to Players
 commands:
