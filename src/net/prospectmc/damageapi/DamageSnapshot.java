@@ -7,15 +7,26 @@ import java.util.EnumMap;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.entity.EntityDamageByEntityEvent;
+import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
+import org.bukkit.potion.PotionEffect;
+import org.bukkit.potion.PotionEffectType;
 
+/**
+ * A DamageSnapshot holds data of a specific LivingEntity at the time of attacking
+ *
+ * @author Codisimus
+ */
 public class DamageSnapshot {
     private static final ArrayList<Attribute> ATTRIBUTES = new ArrayList<Attribute>();
-    private LivingEntity entity;
-    private ItemStack weapon;
-    private EnumMap<Attribute, Double> attributeValues = new EnumMap<Attribute, Double>(Attribute.class);
-    private double weaponEfficiency;
+    private LivingEntity entity; //The LivingEntity causing damage
+    private ItemStack weapon; //The weapon they used to cause the damage
+    private EnumMap<Attribute, Double> attributeValues = new EnumMap<Attribute, Double>(Attribute.class); //A snapshot of relevent attribute values at the time
+    private double weaponEfficiency; //A snapshot of their efficiency at the time
 
+    /**
+     * Add custom attributes that have status effects locally
+     */
     static {
         for (Attribute attribute : Attribute.values()) {
             if (attribute.hasPotionEffect()) {
@@ -25,6 +36,11 @@ public class DamageSnapshot {
         ATTRIBUTES.add(Attribute.FIRE_DAMAGE);
     }
 
+    /**
+     * Constructs a new DamageSnapshot for the given entity
+     *
+     * @param entity The given LivingEntity
+     */
     public DamageSnapshot(LivingEntity entity) {
         this.entity = entity;
         weapon = entity.getEquipment().getItemInHand();
@@ -38,10 +54,20 @@ public class DamageSnapshot {
         weaponEfficiency = AttributeAPI.getValue(entity, Attribute.WEAPON_EFFECIENCY);
     }
 
+    /**
+     * Returns the Entity that this snapshot is for
+     *
+     * @return The LivingEntity that is represented
+     */
     public LivingEntity getEntity() {
         return entity;
     }
 
+    /**
+     * Returns the weapon that was used
+     *
+     * @return The ItemStack which was used to cause damage
+     */
     public ItemStack getWeapon() {
         return weapon;
     }
@@ -61,14 +87,20 @@ public class DamageSnapshot {
     //    return attributes;
     //}
 
+    /**
+     * Applies damage/status effects to the given Entity
+     *
+     * @param entity The LivingEntity to be damaged
+     */
     void applyDamage(LivingEntity entity) {
         double armorEffeciency = AttributeAPI.getValue(entity, Attribute.WEAPON_EFFECIENCY);
 
         //Apply Ice Damage
         double damage;
         if (attributeValues.containsKey(Attribute.ICE_DAMAGE)) {
-            damage = attributeValues.get(Attribute.ICE_DAMAGE) - AttributeAPI.getValue(entity, Attribute.ICE_RESISTANCE);
+            damage = (attributeValues.get(Attribute.ICE_DAMAGE) - AttributeAPI.getValue(entity, Attribute.ICE_RESISTANCE)) / 5;
             if (damage > 0) {
+                DamageAPI.registerDamageCause(this.entity, DamageCause.MELTING, entity, 1);
                 EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(this.entity, entity, EntityDamageByEntityEvent.DamageCause.MELTING, damage);
                 Bukkit.getPluginManager().callEvent(event);
                 if (!event.isCancelled()) {
@@ -82,18 +114,42 @@ public class DamageSnapshot {
         }
 
         for (Attribute attribute : attributeValues.keySet()) {
+            //Calculate damage
             damage = attributeValues.get(attribute);
             if (attribute.hasResistance()) {
                 damage -= AttributeAPI.getValue(entity, attribute.getResistance());
             }
+            //Roll to see if the effect occurs
             if (damage > 0 && armorEffeciency < Math.random() && weaponEfficiency > Math.random()) {
                 int duration = (int) damage * 20;
                 if (attribute.hasPotionEffect()) {
-                    entity.addPotionEffect(attribute.getPotionEffect(duration, 1), true);
+                    PotionEffect effect = attribute.getPotionEffect(duration, 1);
+                    entity.addPotionEffect(effect, true);
+                    DamageCause cause = getDamageCause(effect);
+                    if (cause != null) {
+                        DamageAPI.registerDamageCause(this.entity, cause, entity, duration);
+                    }
                 } else if (attribute == Attribute.FIRE_DAMAGE) {
                     entity.setFireTicks(duration);
+                    DamageAPI.registerDamageCause(this.entity, DamageCause.FIRE_TICK, entity, duration);
                 }
             }
+        }
+    }
+
+    /**
+     * Returns the DamageCause related to the given PotionEffect
+     *
+     * @param effect The given PotionEffect
+     * @return The DamageCause which occurs
+     */
+    private static DamageCause getDamageCause(PotionEffect effect) {
+        if (effect.getType() == PotionEffectType.POISON) {
+            return DamageCause.POISON;
+        } else if (effect.getType() == PotionEffectType.WITHER) {
+            return DamageCause.WITHER;
+        } else {
+            return null;
         }
     }
 }
