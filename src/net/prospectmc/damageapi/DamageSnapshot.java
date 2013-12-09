@@ -98,7 +98,7 @@ public class DamageSnapshot {
      * @param entity
      *            The LivingEntity to be damaged
      */
-    void applyDamage(LivingEntity entity) {
+    public void applyDamage(LivingEntity entity) {
         double armorEffeciency = AttributeAPI.getValue(entity,
                                                        Attribute.WEAPON_EFFECIENCY);
 
