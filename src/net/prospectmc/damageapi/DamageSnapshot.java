@@ -34,6 +34,7 @@ public class DamageSnapshot {
             }
         }
         ATTRIBUTES.add(Attribute.FIRE_DAMAGE);
+        ATTRIBUTES.add(Attribute.KNOCKBACK);
     }
 
     /**
@@ -129,9 +130,19 @@ public class DamageSnapshot {
                     if (cause != null) {
                         DamageAPI.registerDamageCause(this.entity, cause, entity, duration);
                     }
-                } else if (attribute == Attribute.FIRE_DAMAGE) {
-                    entity.setFireTicks(duration);
-                    DamageAPI.registerDamageCause(this.entity, DamageCause.FIRE_TICK, entity, duration);
+                } else {
+                	switch(attribute) {
+                	case FIRE_DAMAGE:
+                		entity.setFireTicks(duration);
+                    	DamageAPI.registerDamageCause(this.entity, DamageCause.FIRE_TICK, entity, duration);
+                    	break;
+                	case KNOCKBACK:
+                			Bukkit.broadcastMessage("Knocking the bitch back");
+                			entity.setVelocity(entity.getLocation().getDirection().multiply(-damage));
+                		break;
+                    default:
+                    	break;
+                	}
                 }
             }
         }
