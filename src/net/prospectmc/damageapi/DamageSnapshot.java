@@ -1,16 +1,11 @@
 package net.prospectmc.damageapi;
 
-import com.zta192.AttributeAPI.Attribute;
-import com.zta192.AttributeAPI.AttributeAPI;
 import java.util.ArrayList;
-import java.util.EnumMap;
-import org.bukkit.Bukkit;
+import java.util.HashMap;
+import net.prospectmc.attributeapi.Attribute;
+import net.prospectmc.attributeapi.AttributeAPI;
 import org.bukkit.entity.LivingEntity;
-import org.bukkit.event.entity.EntityDamageByEntityEvent;
-import org.bukkit.event.entity.EntityDamageEvent.DamageCause;
 import org.bukkit.inventory.ItemStack;
-import org.bukkit.potion.PotionEffect;
-import org.bukkit.potion.PotionEffectType;
 
 /**
  * A DamageSnapshot holds data of a specific LivingEntity at the time of attacking
@@ -19,22 +14,22 @@ import org.bukkit.potion.PotionEffectType;
  */
 public class DamageSnapshot {
     private static final ArrayList<Attribute> ATTRIBUTES = new ArrayList<Attribute>();
+    static Attribute WEAPON_EFFECIENCY;
+    static Attribute ARMOR_EFFECIENCY;
     private LivingEntity entity; //The LivingEntity causing damage
     private ItemStack weapon; //The weapon they used to cause the damage
-    private EnumMap<Attribute, Double> attributeValues = new EnumMap<Attribute, Double>(Attribute.class); //A snapshot of relevent attribute values at the time
+    private HashMap<Attribute, Double> attributeValues = new HashMap<Attribute, Double>(); //A snapshot of relevent attribute values at the time
     private double weaponEfficiency; //A snapshot of their efficiency at the time
 
     /**
      * Add custom attributes that have status effects locally
      */
     static {
-        for (Attribute attribute : Attribute.values()) {
-            if (attribute.hasPotionEffect()) {
+        for (Attribute attribute : AttributeAPI.getAttributes()) {
+            if (attribute.hasEffect()) {
                 ATTRIBUTES.add(attribute);
             }
         }
-        ATTRIBUTES.add(Attribute.FIRE_DAMAGE);
-        ATTRIBUTES.add(Attribute.KNOCKBACK);
     }
 
     /**
@@ -52,7 +47,7 @@ public class DamageSnapshot {
                 attributeValues.put(attribute, value);
             }
         }
-        weaponEfficiency = AttributeAPI.getValue(entity, Attribute.WEAPON_EFFECIENCY);
+        weaponEfficiency = AttributeAPI.getValue(entity, WEAPON_EFFECIENCY);
     }
 
     /**
@@ -93,74 +88,25 @@ public class DamageSnapshot {
      *
      * @param entity The LivingEntity to be damaged
      */
-    public void applyDamage(LivingEntity entity) {
-        double armorEffeciency = AttributeAPI.getValue(entity, Attribute.WEAPON_EFFECIENCY);
-
-        //Apply Ice Damage
-        double damage;
-        if (attributeValues.containsKey(Attribute.ICE_DAMAGE)) {
-            damage = (attributeValues.get(Attribute.ICE_DAMAGE) - AttributeAPI.getValue(entity, Attribute.ICE_RESISTANCE)) / 5;
-            if (damage > 0) {
-                DamageAPI.registerDamageCause(this.entity, DamageCause.MELTING, entity, 1);
-                EntityDamageByEntityEvent event = new EntityDamageByEntityEvent(this.entity, entity, EntityDamageByEntityEvent.DamageCause.MELTING, damage);
-                Bukkit.getPluginManager().callEvent(event);
-                if (!event.isCancelled()) {
-                    double health = entity.getHealth() - event.getDamage();
-                    if (health < 0) {
-                        health = 0;
-                    }
-                    entity.setHealth(health);
-                }
-            }
-        }
+    public void applyEffect(LivingEntity entity) {
 
         for (Attribute attribute : attributeValues.keySet()) {
-            //Calculate damage
-            damage = attributeValues.get(attribute);
+            //Calculate the Attribute value
+            double value = attributeValues.get(attribute);
             if (attribute.hasResistance()) {
-                damage -= AttributeAPI.getValue(entity, attribute.getResistance());
-            }
-            //Roll to see if the effect occurs
-            if (damage > 0 && armorEffeciency < Math.random() && weaponEfficiency > Math.random()) {
-                int duration = (int) damage * 20;
-                if (attribute.hasPotionEffect()) {
-                    PotionEffect effect = attribute.getPotionEffect(duration, 1);
-                    entity.addPotionEffect(effect, true);
-                    DamageCause cause = getDamageCause(effect);
-                    if (cause != null) {
-                        DamageAPI.registerDamageCause(this.entity, cause, entity, duration);
-                    }
-                } else {
-                	switch(attribute) {
-                	case FIRE_DAMAGE:
-                		entity.setFireTicks(duration);
-                    	DamageAPI.registerDamageCause(this.entity, DamageCause.FIRE_TICK, entity, duration);
-                    	break;
-                	case KNOCKBACK:
-                			Bukkit.broadcastMessage("Knocking the bitch back");
-                			entity.setVelocity(entity.getLocation().getDirection().multiply(-damage));
-                		break;
-                    default:
-                    	break;
-                	}
+                value -= attribute.calculateResistance(entity);
+                if (value <= 0) {
+                    continue;
                 }
             }
-        }
-    }
 
-    /**
-     * Returns the DamageCause related to the given PotionEffect
-     *
-     * @param effect The given PotionEffect
-     * @return The DamageCause which occurs
-     */
-    private static DamageCause getDamageCause(PotionEffect effect) {
-        if (effect.getType() == PotionEffectType.POISON) {
-            return DamageCause.POISON;
-        } else if (effect.getType() == PotionEffectType.WITHER) {
-            return DamageCause.WITHER;
-        } else {
-            return null;
+            if (attribute.dependantOnEfficiency()) {
+                //Roll to see if the effect occurs
+                double armorEffeciency = AttributeAPI.getValue(entity, ARMOR_EFFECIENCY);
+                if (armorEffeciency >= Math.random() || weaponEfficiency <= Math.random()) {
+                    continue;
+                }
+            }
         }
     }
 }

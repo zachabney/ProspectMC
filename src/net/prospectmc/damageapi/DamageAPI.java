@@ -2,6 +2,8 @@ package net.prospectmc.damageapi;
 
 import java.util.HashMap;
 import java.util.UUID;
+import net.prospectmc.attributeapi.Attribute;
+import net.prospectmc.attributeapi.AttributeAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.LivingEntity;
@@ -33,6 +35,10 @@ public class DamageAPI extends JavaPlugin implements Listener {
     public void onEnable() {
         plugin = this;
         Bukkit.getPluginManager().registerEvents(this, this);
+        DamageSnapshot.WEAPON_EFFECIENCY = new Attribute("Weapon Efficiency", "effect");
+        DamageSnapshot.ARMOR_EFFECIENCY = new Attribute("Armor Efficiency", "antieffect");
+        AttributeAPI.registerAttribute(DamageSnapshot.WEAPON_EFFECIENCY, 0, 1, 0.3);
+        AttributeAPI.registerAttribute(DamageSnapshot.ARMOR_EFFECIENCY, 0, 1, 0.3);
     }
 
     /**
@@ -135,7 +141,7 @@ public class DamageAPI extends JavaPlugin implements Listener {
         } else {
             event.setDamage(pEvent.getDamage());
             if (pEvent.hasSnapshot()) {
-                pEvent.getDamageSnapshot().applyDamage(victim);
+                pEvent.getDamageSnapshot().applyEffect(victim);
             }
         }
     }
