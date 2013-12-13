@@ -26,7 +26,7 @@ public class PotionAttribute extends Attribute {
      * @param potionEffect The status effect which this Attribute may cause
      * @param amplifier The power of the status effect
      */
-    private PotionAttribute(String name, String alias, PotionEffectType potionEffect, int amplifier) {
+    public PotionAttribute(String name, String alias, PotionEffectType potionEffect, int amplifier) {
         super(name, alias);
         this.potionEffect = potionEffect;
         this.amplifier = amplifier;
@@ -41,7 +41,7 @@ public class PotionAttribute extends Attribute {
      * @param potionEffect The status effect which this Attribute may cause
      * @param amplifier The power of the status effect
      */
-    private PotionAttribute(String name, String alias, PotionAttribute resistance, PotionEffectType potionEffect, int amplifier) {
+    public PotionAttribute(String name, String alias, Attribute resistance, PotionEffectType potionEffect, int amplifier) {
         super(name, alias, resistance);
         this.potionEffect = potionEffect;
         this.amplifier = amplifier;
