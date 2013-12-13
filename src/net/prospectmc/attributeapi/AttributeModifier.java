@@ -1,4 +1,4 @@
-package com.zta192.AttributeAPI;
+package net.prospectmc.attributeapi;
 
 import java.util.UUID;
 import net.minecraft.server.v1_7_R1.NBTTagCompound;
@@ -100,7 +100,7 @@ public class AttributeModifier {
      * @param compound The existing NBTTagCompound which represents an AttributeModifier
      */
     public AttributeModifier(NBTTagCompound compound) {
-        attribute = Attribute.getAttribute(compound.getString("Name"));
+        attribute = AttributeAPI.getAttribute(compound.getString("Name"));
         this.amount = compound.getDouble("Amount");
         this.operation = Operation.getOperation(compound.getInt("Operation"));
         this.uuid = new UUID(compound.getLong("UUIDMost"), compound.getLong("UUIDLeast"));

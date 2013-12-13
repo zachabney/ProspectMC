@@ -1,6 +1,5 @@
-package com.zta192.AttributeAPI;
+package net.prospectmc.attributeapi;
 
-import com.zta192.AttributeAPI.AttributeModifier.Operation;
 import java.lang.annotation.ElementType;
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;
@@ -8,6 +7,7 @@ import java.lang.annotation.Target;
 import java.lang.reflect.Method;
 import java.util.*;
 import java.util.logging.Level;
+import net.prospectmc.attributeapi.AttributeModifier.Operation;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.command.Command;
@@ -298,7 +298,7 @@ public class CommandHandler implements CommandExecutor {
             case OFFLINEPLAYER:
                 return Bukkit.getOfflinePlayer(argument);
             case ATTRIBUTE:
-                return Attribute.getAttributeByAlias(argument);
+                return AttributeAPI.getAttributeByAlias(argument);
             case OPERATION:
                 return argument.length() == 1 ? Operation.getOperation(argument.charAt(0)) : null;
             default:

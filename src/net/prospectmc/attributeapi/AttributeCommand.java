@@ -1,7 +1,7 @@
-package com.zta192.AttributeAPI;
+package net.prospectmc.attributeapi;
 
-import com.zta192.AttributeAPI.AttributeModifier.Operation;
-import com.zta192.AttributeAPI.CommandHandler.CodCommand;
+import net.prospectmc.attributeapi.AttributeModifier.Operation;
+import net.prospectmc.attributeapi.CommandHandler.CodCommand;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
 
@@ -34,7 +34,7 @@ public class AttributeCommand {
     )
     public boolean list(CommandSender sender) {
         StringBuilder sb = new StringBuilder();
-        for (Attribute attribute : Attribute.values()) {
+        for (Attribute attribute : AttributeAPI.getAttributes()) {
             sb.append(", ");
             sb.append(attribute.getAlias());
         }
@@ -58,7 +58,7 @@ public class AttributeCommand {
         }
     )
     public boolean value(Player player) {
-        for (Attribute attribute : Attribute.values()) {
+        for (Attribute attribute : AttributeAPI.getAttributes()) {
             double value = AttributeAPI.getValue(player, attribute);
             if (value > 0) {
                 player.sendMessage("§5" + attribute.getName() + ": §6" + value);

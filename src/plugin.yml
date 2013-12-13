@@ -1,8 +1,7 @@
 name: AttributeAPI
-main: com.zta192.AttributeAPI.AttributeAPI
-version: 3.3.2
+main: net.prospectmc.attributeapi.AttributeAPI
+version: 4.0.0
 author: zta192, Codisimus
-website: http://zta192.com
 description: AttributeAPI.
 commands:
   attribute:

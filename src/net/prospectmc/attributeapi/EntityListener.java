@@ -1,8 +1,7 @@
-package com.zta192.AttributeAPI;
+package net.prospectmc.attributeapi;
 
 import net.minecraft.server.v1_7_R1.AttributeMapServer;
 import net.minecraft.server.v1_7_R1.EntityLiving;
-import net.minecraft.server.v1_7_R1.IAttribute;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
 import org.bukkit.entity.LivingEntity;
 import org.bukkit.event.EventHandler;
@@ -42,8 +41,10 @@ public class EntityListener implements Listener {
      */
     private static void registerAttributes(EntityLiving entity) {
         AttributeMapServer attributemapserver = (AttributeMapServer) entity.bc();
-        for (IAttribute attribute : AttributeAPI.getAttributes()) {
-            attributemapserver.b(attribute);
+        for (Attribute attribute : AttributeAPI.getAttributes()) {
+            if (attribute.isCustom()) {
+                attributemapserver.b(attribute.getIAttribute());
+            }
         }
     }
 }

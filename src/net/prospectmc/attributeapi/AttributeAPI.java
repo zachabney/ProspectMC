@@ -1,7 +1,8 @@
-package com.zta192.AttributeAPI;
+package net.prospectmc.attributeapi;
 
 import java.lang.reflect.Field;
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
 import net.minecraft.server.v1_7_R1.*;
 import org.bukkit.Bukkit;
 import org.bukkit.craftbukkit.v1_7_R1.entity.CraftLivingEntity;
@@ -14,11 +15,13 @@ import org.bukkit.plugin.java.JavaPlugin;
  * Provides a non NMS method of accessing and modifying Attributes
  * Also allows for custom Attributes to be created
  *
- * @author Zach Abney
+ * @author Zach Abney & Codisimus
  */
 public class AttributeAPI extends JavaPlugin {
-    //Holds all custom Attributes (Attribute Name -> Minecraft Attribute Object)
-    private static final HashMap<String, IAttribute> customAttributes = new HashMap<String, IAttribute>();
+    private static final LinkedList<Attribute> attributes = new LinkedList<Attribute>();
+    private static final double MINIMUM = 0.0;
+    private static final double MAXIMUM = Integer.MAX_VALUE;
+    private static final double DEFAULT_VALUE = MINIMUM;
 
     @Override
     public void onEnable() {
@@ -26,55 +29,25 @@ public class AttributeAPI extends JavaPlugin {
         Bukkit.getPluginManager().registerEvents(new EntityListener(), this);
         //Register the /attribute command
         new CommandHandler(this, "attribute").registerCommands(AttributeCommand.class);
-        //Initialize all attributes (creates custom attributes so they are ready to add to Entities
-        Attribute.init();
+        //Register vanilla Attributes
+        registerAttribute(new MCAttribute("generic.maxHealth", "Max Health", "health"));
+        registerAttribute(new MCAttribute("generic.followRange", "Follow Range", "follow"));
+        registerAttribute(new MCAttribute("generic.knockbackResistance", "Knockback Resistance", "antiknockback"));
+        registerAttribute(new MCAttribute("generic.movementSpeed", "Speed", "speed"));
+        registerAttribute(new MCAttribute("generic.attackDamage", "Attack Damage", "attack"));
+        registerAttribute(new MCAttribute("horse.jumpStrength", "Jump Strength", "jump"));
+        registerAttribute(new MCAttribute("zombie.spawnReinforcements", "Spawn Reinforcements", "spawn"));
     }
 
     /**
      * Creates an IAttribute for custom Attributes to store locally
      *
      * @param attribute The Attribute to be created
-     * @param min The minimum range
-     * @param max The maximum range
-     * @param defaultValue The starting value which must be within the range
      */
-    static void addAttribute(Attribute attribute, double min, double max, double defaultValue) {
-        customAttributes.put(attribute.getName(), new AttributeRanged(attribute.getAttributeName(), defaultValue, min, max).a(attribute.getName()));
-    }
-
-    /**
-     * Returns true if the given Attribute is custom and not in Minecraft by default
-     *
-     * @param name The name of the attribute
-     * @return true if the given Attribute is custom
-     */
-    static boolean isCustom(String name) {
-        return customAttributes.containsKey(name);
-    }
-
-    /**
-     * Returns a list of all custom Attributes in IAttribute form
-     *
-     * @return A list of all custom Attributes
-     */
-    static Collection<IAttribute> getAttributes() {
-        return customAttributes.values();
-    }
-
-    /**
-     * Returns the value that a LivingEntity has for a specific Attribute
-     *
-     * @param entity The given LivingEntity
-     * @param attribute The Attribute to check it's value
-     * @return The value of the Attribute or 0 if the Attribute does not apply to all LivingEntities (such as follow range)
-     */
-    public static double getValue(LivingEntity entity, Attribute attribute) {
-        EntityLiving e = ((CraftLivingEntity) entity).getHandle();
-        if (isCustom(attribute.getName())) {
-            //Custom Attributes must be checked this way or they will break on reload
-            return e.bc().a(attribute.getName()).getValue();
+    public static void registerAttribute(Attribute attribute) {
+        if (attribute.isCustom()) {
+            registerAttribute(attribute, MINIMUM, MAXIMUM, DEFAULT_VALUE);
         } else {
-            //Generic attributes must be checked this way as they are not always in the other collection
             IAttribute iAttribute;
             if (GenericAttributes.a.a().equals(attribute.getName())) {
                 iAttribute = GenericAttributes.a;
@@ -88,9 +61,89 @@ public class AttributeAPI extends JavaPlugin {
                 iAttribute = GenericAttributes.e;
             } else {
                 //The Attribute does not apply to all LivingEntities
-                return 0;
+                iAttribute = null;
             }
-            return e.getAttributeInstance(iAttribute).getValue();
+            attribute.setIAttribute(iAttribute);
+            attributes.add(attribute);
+        }
+    }
+
+    /**
+     * Creates an IAttribute for custom Attributes to store locally
+     *
+     * @param attribute The Attribute to be created
+     * @param defaultValue The starting value which must be within the range
+     * @param min The minimum range
+     * @param max The maximum range
+     */
+    public static void registerAttribute(Attribute attribute, double min, double max, double defaultValue) {
+        IAttribute iAttribute;
+        if (attribute.isCustom()) {
+            iAttribute = new AttributeRanged(attribute.getAttributeName(), defaultValue, min, max).a(attribute.getName());
+        } else {
+            throw new RuntimeException("Cannot apply range to vanilla Attribute");
+        }
+        attribute.setIAttribute(iAttribute);
+        attributes.add(attribute);
+    }
+
+    /**
+     * Returns a list of all custom Attributes
+     *
+     * @return A list of all custom Attributes
+     */
+    public static LinkedList<Attribute> getAttributes() {
+        return attributes;
+    }
+
+    /**
+     * Finds the Attribute of the given name
+     *
+     * @param string The full name of the requested Attribute
+     * @return The Attribute or null if it is not found
+     */
+    public static Attribute getAttribute(String name) {
+        for (Attribute attribute : getAttributes()) {
+            if (attribute.getName().equals(name)) {
+                return attribute;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Finds the Attribute of the given alias
+     *
+     * @param string The alias of the requested Attribute
+     * @return The Attribute or null if it is not found
+     */
+    public static Attribute getAttributeByAlias(String alias) {
+        for (Attribute attribute : getAttributes()) {
+            if (attribute.getAlias().equals(alias)) {
+                return attribute;
+            }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the value that a LivingEntity has for a specific Attribute
+     *
+     * @param entity The given LivingEntity
+     * @param attribute The Attribute to check it's value
+     * @return The value of the Attribute or 0 if the Attribute does not apply to all LivingEntities (such as jump strength)
+     */
+    public static double getValue(LivingEntity entity, Attribute attribute) {
+        EntityLiving e = ((CraftLivingEntity) entity).getHandle();
+        if (attribute.isCustom()) {
+            //Custom Attributes must be checked this way or they will break on reload
+            return e.bc().a(attribute.getName()).getValue();
+        } else {
+            IAttribute iAttribute = attribute.getIAttribute();
+            //Generic attributes must be checked this way as they are not always in the other collection
+            return iAttribute == null
+                   ? 0
+                   : e.getAttributeInstance(iAttribute).getValue();
         }
     }
 
@@ -137,7 +190,7 @@ public class AttributeAPI extends JavaPlugin {
         if (!parent.hasKey("AttributeModifiers")) {
             return attributes;
         }
-        List<NBTBase> attributeList = getList(parent.getList("AttributeModifiers", 6));
+        List<NBTBase> attributeList = getList(parent.getList("AttributeModifiers", 10));
         for (NBTBase base : attributeList) {
             attributes.add(new AttributeModifier((NBTTagCompound) base));
         }
