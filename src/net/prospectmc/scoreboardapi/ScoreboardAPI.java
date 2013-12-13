@@ -1,7 +1,7 @@
 package net.prospectmc.scoreboardapi;
 
-import net.prospectmc.Faction;
-import net.prospectmc.FactionAPI;
+import net.prospectmc.factions.Faction;
+import net.prospectmc.factions.FactionAPI;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
