@@ -136,6 +136,7 @@ public class DamageAPI extends JavaPlugin implements Listener {
 
         //Trigger a ProspectDamageEvent
         ProspectDamageEvent pEvent = new ProspectDamageEvent(victim, attacker, damage, cause);
+        Bukkit.getPluginManager().callEvent(pEvent);
         if (pEvent.isCancelled()) {
             event.setCancelled(true);
         } else {
